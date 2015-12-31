@@ -5,16 +5,54 @@
 	<script type="text/javascript" src="http://apps.bdimg.com/libs/raphael/2.1.2/raphael-min.js"></script>
 	<script type="text/javascript">
 	window.onload = function () {
-		var paper = Raphael(10, 50, 320, 200);
+		// Create the canvas, left, top, width, height
+		var paper2 = Raphael(20, 320, 800, 600);
+		// Create the canvas inner HTML elements
+		var paper = Raphael("holder", 800, 200);
 
-		var circle = paper.circle(50, 40, 20);
+		// Create an circle object, center-left=60 in canvas, center-top=60 in canvas, radius=50
+		var circle = paper.circle(60, 60, 50);
+		circle.attr("fill", "yellow");
+		circle.attr("stroke", "#ff0000");
+		// Hover
+		circle.hover(
+			function() {
+				circle.attr({"fill":"red"});
+			}, 
+			function() {
+				circle.attr({"fill":"yellow"});
+			}
+		);
+		// Click
+		circle.click(function() {
+			// Animation
+			// cx=the x-axis coordinate of the center of the circle, or ellipse, cy=the y-axis coordinate of the center of the circle, or ellipse
+			// ms=5000, number of ms for animation to run
+			var anim = Raphael.animation({cx: 600, cy:300, r:75, "fill":"red"}, 15000);
+			circle.animate(anim); // run the given animation immediately
+			circle.animate(anim.repeat(5)); // Repeat 5 times for the given animation
+		});
 
-		circle.attr("fill", "#f00");
-		circle.attr("stroke", "#fff")
+		var rect = paper2.rect(50, 50, 40, 20);
+		rect.attr("fill", "red");
+		rect.attr("stroke", "blue");
+
+		var anim2 = Raphael.animation({x: 500, y:200}, 5000);
+		rect.animate(anim2.delay(3000)); // run the given animation after 3000ms
+
+		// Text
+		var text = paper.text(500, 30, "Hello Sunset!");
+		text.attr({"font-size":"30px", "fill":"blue", "stroke":"red", "opacity":"0.5"});
+
+		// Transform
+		var rect2 = paper2.rect(100, 100, 100, 100, 15); // x, y, width, height, round corners
+		rect2.attr({"stroke-dasharray":"-"});
+		// translate 100 px horizontally,100px vertically, rotate 45 angle, tranlate -100px horizontally,0px veritcally, scale to 0.5
+		rect2.transform("t100,100r45t-100,0s.5");
 	}
 	</script>
 </head>
 <body>
-
+<div id="holder"></div>
 </body>
 </html>
